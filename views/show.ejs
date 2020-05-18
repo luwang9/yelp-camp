@@ -3,19 +3,22 @@
 <h1>This is the show template!</h1>
 <h2><%= campground[0].name%></h2>
 <div class="row text-center" >
-    <% campground.forEach(function(campground){ %>
         <div class="col-md-3 col-sm-6">
             <div class="img-thumbnail">
-                <img src="<%= campground.image %>" >
+                <img src="<%= campground[0].image %>" >
                 <div class="caption">
-                    <h5><%= campground.name %></h4>
-                    <h5><%= campground.description %></h5>
+                    <h5><%= campground[0].name %></h5>
+                    <h5><%= campground[0].description %></h5>
+                    <% campground[0].comments.forEach(function(comment){ %>
+
+                    <h5><strong><%= comment.author %></strong> - <%= comment.text %> </h5>
+                    <% }); %>
+
                 </div>
                 
             </div>
         </div>
         
         
-    <% }); %>
 </div>
 <%- include("partials/footer") %>
