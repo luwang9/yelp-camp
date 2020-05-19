@@ -7,6 +7,7 @@ var campgroundSchema = new mongoose.Schema({
     comments:[
         {
             type:mongoose.Schema.Types.ObjectId,
+            // ref:"comments" here comments is the collection name in mongodb
             ref:"comments"
         }
     ]
