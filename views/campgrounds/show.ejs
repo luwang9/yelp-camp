@@ -1,26 +1,49 @@
 <%- include("../partials/header") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Yelp Camp</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item active">Info 2</li>
+                <li class="list-group-item active">Info 3</li>
 
-<h1>This is the show template!</h1>
-<h2><%= campground[0].name%></h2>
-<div class="row text-center" >
-        <div class="col-md-3 col-sm-6">
-            <div class="img-thumbnail">
-                <img src="<%= campground[0].image %>" >
-                <div class="caption">
-                    <h5><%= campground[0].name %></h5>
-                    <h5><%= campground[0].description %></h5>
-                    <p><a class="btn btn-success" href="/campgrounds/<%= campground[0]._id%>/comments/new">Add new Comment</a></p>
-                    <% campground[0].comments.forEach(function(comment){ %>
-
-                    <h5><strong><%= comment.author %></strong> - <%= comment.text %> </h5>
-                    <% }); %>
-
-
-                </div>
-                
             </div>
         </div>
-        
-        
+        <div class="col-md-9 " > 
+            <div class="img-thumbnail p-0 mb-2">
+                <img class="img-fluid" width="100%" src="<%= campground[0].image %>" >
+                <div class="caption p-2">
+                    <h4 class="float-right">$9.00/night</h4>
+                    <h4>
+                        <a href="">
+                            <%= campground[0].name%>
+                        </a>
+                    </h4>
+                    <p><%= campground[0].description %></p>
+                </div>
+            </div>
+            <div class="img-thumbnail p-4 bg-light" >
+                <div class="text-right ">
+                    <a class="btn btn-success " href="/campgrounds/<%= campground[0]._id%>/comments/new">Add new Comment</a>
+                </div>
+                <hr>
+                <% campground[0].comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong>
+                                <%= comment.author %>
+                            </strong> 
+                            <span class="float-right">10 days ago</span>
+                            <p><%= comment.text %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
 </div>
+
+        
+        
 <%- include("../partials/footer") %>

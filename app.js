@@ -99,11 +99,6 @@ app.post("/campgrounds/:id/comments", function (req, res) {
                     campground[0].comments.push(newComment);
                     campground[0].save();
                     res.redirect("/campgrounds/"+req.params.id);
-                    // campground.forEach(function(campground){
-                    //     campground.comments.push(newComment);
-                    //     campground.save();
-                    //     res.redirect("/campgrounds/"+req.params.id);
-                    // });
                 }
             });           
         }
