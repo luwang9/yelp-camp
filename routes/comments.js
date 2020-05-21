@@ -3,13 +3,7 @@ const express = require("express");
 const router = express.Router({mergeParams:true});
 const campground = require("../models/campgrounds");
 const Comment = require("../models/comment");
-//middleware
-function isLoggedin(req,res,next){
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+
 // ##########################
 //comment routes
 router.get("/new",isLoggedin,function(req,res){
@@ -46,5 +40,43 @@ router.post("/",isLoggedin, function (req, res) {
         }
     });  
 });
+//edit routes
+router.get("/:comment_id/edit",function(req,res){
+    campground.find({_id:req.params.id},function(err,foundCampground){
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        }
+        else {
+            Comment.find({_id:req.params.comment_id}, function(err,foundComment){
+                if (err) {
+                    console.log(err);
+                    res.redirect("back");
+                }
+                else {
+                    res.render("comments/edit",{campground:foundCampground[0],comment:foundComment[0]});                }
+            })
+        }
+    })
+    
+});
+//update comment
+router.put("/:comment_id",function(req,res){
+    Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,updatedcomment){
+        if (err) {
+            res.redirect("back");
+        }
+        else {
+            res.redirect("/campgrounds/"+req.params.id);
+        }
+    })
+});
 
+//authentication middleware
+function isLoggedin(req,res,next){
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 module.exports = router;
