@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router({mergeParams:true});
 const campground = require("../models/campgrounds");
 const Comment = require("../models/comment");
-
+//middleware
 function isLoggedin(req,res,next){
     if (req.isAuthenticated()) {
         return next();
@@ -18,7 +18,6 @@ router.get("/new",isLoggedin,function(req,res){
             console.log(err);
         }
         else {
-            console.log("here");
             res.render("comments/new",{campground:campground});
         }
     })
@@ -36,6 +35,9 @@ router.post("/",isLoggedin, function (req, res) {
                     console.log(err);
                 }
                 else {
+                    newComment.author.id = req.user._id;
+                    newComment.author.username = req.user.username;
+                    newComment.save(); 
                     campground[0].comments.push(newComment);
                     campground[0].save();
                     res.redirect("/campgrounds/"+req.params.id);
