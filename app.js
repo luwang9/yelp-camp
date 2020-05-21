@@ -2,6 +2,7 @@ const app = require('express')();
 const bodyparser = require("body-parser");
 const mongoose = require('mongoose');
 const path = require('path');
+const methodOverride = require('method-override');
 const campground = require("./models/campgrounds");
 const Comment = require("./models/comment");
 const seedDB = require("./seeds");
@@ -20,6 +21,7 @@ const authRoutes = require("./routes/index");
 const port = 3000;
 
 app.use(bodyparser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //passport config
@@ -47,7 +49,7 @@ app.use("/campgrounds/:id/comments/",commentRoutes);
 app.use(authRoutes);
 
 // open a connection to the test database on our locally running instance of MongoDB
-mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true }, function (err) {
+mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false}, function (err) {
     if (err) {
         console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
     }

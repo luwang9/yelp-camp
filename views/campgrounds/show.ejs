@@ -12,26 +12,32 @@
         </div>
         <div class="col-md-9 " > 
             <div class="img-thumbnail p-0 mb-2">
-                <img class="img-fluid" width="100%" src="<%= campground[0].image %>" >
+                <img class="img-fluid" width="100%" src="<%= campground.image %>" >
                 <div class="caption p-2">
                     <h4 class="float-right">$9.00/night</h4>
                     <h4>
                         <a href="">
-                            <%= campground[0].name%>
+                            <%= campground.name%>
                         </a>
                     </h4>
-                    <p><%= campground[0].description %></p>
+                    <p><%= campground.description %></p>
                     <p>
-                        <em>Submitted By <%= campground[0].author.username %></em>
+                        <em>Submitted By <%= campground.author.username %></em>
                     </p>
+                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
+                    
+                    <form style="display: inline;" action="/campgrounds/<%= campground._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+
                 </div>
             </div>
             <div class="img-thumbnail p-4 bg-light" >
                 <div class="text-right ">
-                    <a class="btn btn-success " href="/campgrounds/<%= campground[0]._id%>/comments/new">Add new Comment</a>
+                    <a class="btn btn-success " href="/campgrounds/<%= campground._id%>/comments/new">Add new Comment</a>
                 </div>
                 <hr>
-                <% campground[0].comments.forEach(function(comment){ %>
+                <% campground.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
                             <strong>
