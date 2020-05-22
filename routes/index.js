@@ -4,13 +4,6 @@ const User = require("../models/user");
 const passport = require("passport");
 //###########################
 
-function isLoggedin(req,res,next){
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-
 router.get("/", function (req, res) {
     res.render("landing");
 });
@@ -46,6 +39,7 @@ router.post("/login", passport.authenticate('local',
     });
 router.get("/logout",function(req,res){
     req.logout();
+    req.flash("error","Logged you out!");
     res.redirect("/campgrounds");
 });
 module.exports = router;

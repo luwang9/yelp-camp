@@ -10,7 +10,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require("./models/user");
 const session = require("express-session");
-
+const flash = require("connect-flash");
 // require all the routes
 const commentRoutes = require("./routes/comments");
 const campgroundRoutes = require("./routes/campgrounds");
@@ -22,6 +22,7 @@ const port = 3000;
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(flash());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //passport config
@@ -37,9 +38,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// pass currentUser paras to every route
+// pass currentUser paras to every route since we use it in header.ejs, which is included in every ejs file
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
+    res.locals.message = req.flash("error");
     next();
 });
 
