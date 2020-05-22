@@ -13,12 +13,12 @@ middlewareObj.isLoggedin = function(req,res,next){
 //authorization of comment
 middlewareObj.checkedCommentOwnership =  function(req,res,next){
     if (req.isAuthenticated()) {
-        Comment.find({_id:req.params.comment_id},function(err,foundComment){
-            if (err) {
-                req.flash("error","Campground is not found");
+        Comment.findById(req.params.comment_id,function(err,foundComment){
+            if (err||!foundComment) {
+                req.flash("error","Comment is not found");
                 res.redirect("back");
             } else {
-                if (foundComment[0].author.id.equals(req.user._id)) {
+                if (foundComment.author.id.equals(req.user._id)) {
                     next();
                 }
                 else {
@@ -37,11 +37,12 @@ middlewareObj.checkedCommentOwnership =  function(req,res,next){
 //Authorization  middleware
 middlewareObj.checkedCampgroundOwnership = function(req,res,next){
     if (req.isAuthenticated()) {
-        campground.find({_id:req.params.id},function(err,foundCampground){
-            if (err) {
+        campground.findById(req.params.id,function(err,foundCampground){
+            if (err||!foundCampground) {
+                req.flash("error","Campground is not found");
                 res.redirect("back");
             } else {
-                if (foundCampground[0].author.id.equals(req.user._id)) {
+                if (foundCampground.author.id.equals(req.user._id)) {
                     next();
                 }
                 else {

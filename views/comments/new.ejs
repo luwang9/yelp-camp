@@ -1,7 +1,7 @@
 <%- include("../partials/header") %>
 <div class="container">
     <div class="row" style="width: 55%; margin: 0 auto;">
-        <h1 >Add a new comment to <%= campground[0].name %></h1>
+        <h1 >Add a new comment to <%= campground.name %></h1>
 
     </div>
     <div class="row">
@@ -9,7 +9,7 @@
         
         <div style="width: 30%; margin: 20px auto;">
 
-            <form action="/campgrounds/<%= campground[0]._id %>/comments" method="POST" >
+            <form action="/campgrounds/<%= campground._id %>/comments" method="POST" >
                 <div class="form-group">
                     <input class="form-control" type="text" name="comment[text]" placeholder="text">
 
@@ -19,7 +19,7 @@
 
                 </div>
             </form>
-            <a href="/campgrounds/<%= campground[0]._id %>">Go back</a>
+            <a href="/campgrounds/<%= campground._id %>">Go back</a>
         </div>
     </div>
 </div>

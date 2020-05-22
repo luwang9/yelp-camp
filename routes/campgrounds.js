@@ -42,31 +42,32 @@ router.get("/new",middleware.isLoggedin, function (req, res) {
 });
 //show more info about one campground
 router.get("/:id", function (req, res) {
-    campground.find({_id: req.params.id}).populate("comments").exec(function (err, FindCampground) {
-        if (err) {
-            console.log(err);
+    campground.findById(req.params.id).populate("comments").exec(function (err, FindCampground) {
+        if (err||!FindCampground) {
+            req.flash("error","Failed to find the campground!");
+            res.redirect("back");
         }
         else {  
-            res.render("campgrounds/show", { campground: FindCampground[0] });
+            res.render("campgrounds/show", { campground: FindCampground });
         }
     });
 })
 //edit campground route
 router.get("/:id/edit",middleware.checkedCampgroundOwnership,function(req,res){
-    campground.find({_id:req.params.id},function(err,foundCampground){
-        if (err) {
-            console.log(err);
+    campground.findById(req.params.id,function(err,foundCampground){
+        if (err||!foundCampground) {
+            req.flash("error","Failed to find the campground!");
             res.redirect("back");
         }
         else {
-            res.render("campgrounds/edit",{campground:foundCampground[0]});
+            res.render("campgrounds/edit",{campground:foundCampground});
         }
     })
 });
 router.put("/:id",middleware.checkedCampgroundOwnership,function(req,res){
     campground.findByIdAndUpdate(req.params.id,req.body.campground,function(err,updatedCampground){
         if (err) {
-            console.log(err);
+            req.flash("error","Failed to find the campground!");
             res.redirect("/campgrounds");
         }
         else {
