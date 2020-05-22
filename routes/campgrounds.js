@@ -30,6 +30,8 @@ router.post("/",middleware.isLoggedin, function (req, res) {
             console.log(err);
         }
         else {
+            req.flash("success","Successfully added a campground");
+
             res.redirect("/campgrounds");
         }
     })
@@ -68,6 +70,8 @@ router.put("/:id",middleware.checkedCampgroundOwnership,function(req,res){
             res.redirect("/campgrounds");
         }
         else {
+            req.flash("success","Successfully updated a campground");
+
             res.redirect("/campgrounds/"+req.params.id);
         }
     })
@@ -85,6 +89,8 @@ router.delete("/:id",middleware.checkedCampgroundOwnership,function(req,res){
                     console.log(err)
                 }
                 else {
+                    req.flash("success","Successfully deteled a campground");
+
                     res.redirect("/campgrounds");
                 }
             })

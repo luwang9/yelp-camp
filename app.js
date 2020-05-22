@@ -41,7 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 // pass currentUser paras to every route since we use it in header.ejs, which is included in every ejs file
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
-    res.locals.message = req.flash("error");
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
