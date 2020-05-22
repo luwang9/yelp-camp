@@ -19,12 +19,13 @@ router.get("/", function (req, res) {
 router.post("/",middleware.isLoggedin, function (req, res) {
     name = req.body.name;
     image = req.body.image;
+    price = req.body.price;
     description = req.body.description;
     author = {
         id:req.user._id,
         username : req.user.username
     };
-    newCamp = { name: name, image: image ,description:description,author:author};
+    newCamp = { name: name,price:price, image: image ,description:description,author:author};
     campground.create(newCamp, function (err, newCamp) {
         if (err) {
             console.log(err);
