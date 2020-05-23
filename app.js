@@ -17,10 +17,6 @@ const commentRoutes = require("./routes/comments");
 const campgroundRoutes = require("./routes/campgrounds");
 const authRoutes = require("./routes/index");
 
-
-
-const port = 3000;
-
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(flash());
@@ -53,8 +49,9 @@ app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/comments/",commentRoutes);
 app.use(authRoutes);
 
+const url = process.env.MONGOURL + "/yelp_camp";
 // open a connection to the test database on our locally running instance of MongoDB
-mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false}, function (err) {
+mongoose.connect(url||'mongodb://localhost/yelp_camp', { useNewUrlParser: true,useCreateIndex:true, useUnifiedTopology: true ,useFindAndModify: false}, function (err) {
     if (err) {
         console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
     }
@@ -70,6 +67,7 @@ seedDB();
 
 
 
-
-
-app.listen(app.listen(port, () => console.log(`App listening at http://localhost:${port}`)));
+var port = process.env.PORT||3000;
+app.listen(port, function(){
+    console.log(`App listening at http://localhost:${port}`);
+});
