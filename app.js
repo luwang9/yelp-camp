@@ -49,7 +49,7 @@ app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/comments/",commentRoutes);
 app.use(authRoutes);
 
-const url = process.env.MONGOURL;
+const url = process.env.MONGODB_URI;
 // open a connection to the test database on our locally running instance of MongoDB
 mongoose.connect(url||'mongodb://localhost/yelp_camp', { useNewUrlParser: true,useCreateIndex:true, useUnifiedTopology: true ,useFindAndModify: false}, function (err) {
     if (err) {
